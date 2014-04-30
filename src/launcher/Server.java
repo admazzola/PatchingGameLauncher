@@ -34,7 +34,7 @@ public class Server {
 		
 		//107.170.122.137
 		//put my external IP here, plus the external forwarded port
-        weaver = new Weaver( new NodeInfo[]{new NodeInfo("107.170.122.137",2232)} , 2232 );
+        weaver = new Weaver( new NodeInfo[]{new NodeInfo("192.168.62.187",2232)} , 2232 );
         
         WeaverOrb orb = new WeaverOrb( SharedData.getSelfJarPath() + "sandsofosiris.jar", weaver );
 		orb.start();		 
