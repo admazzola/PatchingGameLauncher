@@ -17,7 +17,7 @@ public class SharedData {
 	public static final int GameMegabyteSizeInit = 512;
 	public static final int GameMegabyteSizeMax = 2048; // do not use or it will break 32bit
 
-	public static String VERSION = "0.13";
+	public static String VERSION = "0.15";
 	
 	public static String getSelfJarPath(){
 		String fullpath = Server.class.getProtectionDomain().getCodeSource().getLocation().getPath();

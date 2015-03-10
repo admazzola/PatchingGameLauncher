@@ -39,7 +39,7 @@ public class Launcher {
 
 	static Launcher launcher;
 
-	static LauncherFrame launcherFrame;
+	static JFrame launcherFrame;
 	static LauncherPanel launcherPanel;
 	
 	
@@ -79,7 +79,7 @@ public class Launcher {
 
 		new File(SharedData.PATH_TO_CLIENT_JAR).mkdir();
 
-		LauncherFrame frame = new LauncherFrame();
+		JFrame frame = new JFrame();
 		frame.setTitle("Sands Launcher " + SharedData.VERSION);
 		frame.setSize(725, 525);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
