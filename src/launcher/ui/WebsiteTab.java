@@ -13,13 +13,29 @@ import javax.swing.event.HyperlinkEvent.EventType;
 
 import launcher.Launcher;
 import launcher.OperatingSystem;
-
+import org.fit.cssbox.layout.BrowserCanvas;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.fit.cssbox.css.DOMAnalyzer;
 
 public class WebsiteTab extends JScrollPane{
 
-	JEditorPane blog = new JEditorPane();
+	/** The swing canvas for displaying the rendered document */
+    private javax.swing.JPanel browserCanvas;
 	
+    /** Root DOM Element of the document body */
+	private Element docroot;
+	
+	/** The CSS analyzer of the DOM tree */
+    private DOMAnalyzer decoder;
+    
 	public WebsiteTab(){
+		
+		  browserCanvas = new BrowserCanvas(docroot, decoder, new java.awt.Dimension(1000, 600), baseurl);
+		  
+		  
+		  
+		  
 		
 		blog.setEditable(false);
 		blog.setMargin(null);
