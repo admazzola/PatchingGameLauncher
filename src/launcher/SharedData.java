@@ -6,8 +6,8 @@ import java.net.URI;
 public class SharedData {
 	
 	public static final int SERVERPORT = 2232;
-	public static final String SERVERIP = "107.170.122.137";
-	//public static final String SERVERIP = "192.168.62.187";
+	//public static final String SERVERIP = "107.170.122.137";
+	public static final String SERVERIP = "localhost";
 	
 	public static final String URL_BLOG = "http://www.starflask.com/launcher/updates";
 	public static final String PATH_TO_CLIENT_JAR = getDefaultDirectory() +"\\" +"Sands of Osiris" +"\\";
@@ -16,6 +16,10 @@ public class SharedData {
 	public static final String FILENAME = "sandsofosiris.jar";
 	public static final int GameMegabyteSizeInit = 512;
 	public static final int GameMegabyteSizeMax = 2048; // do not use or it will break 32bit
+	
+	public static final String HELPSTRING = "AVAILABLE COMMANDS:" + "\r\n"
+								 + " 'log' - Displays a list of recent client connections ";
+	public static final String UNKNOWNCOMMANDSTRING = "Invalid command. Type 'help' for assistance.";
 
 	public static String VERSION = "0.13";
 	

@@ -6,6 +6,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Scanner;
 
 import com.google.common.hash.HashCode;
 import com.google.common.hash.Hashing;
@@ -13,14 +14,19 @@ import com.google.common.io.Files;
 
 import launcher.net.FileServer;
 import launcher.net.FileUploader;
+import launcher.records.ServerRecordKeeper;
 
 
 public class Server {
 	
 	private FileServer fileServer;
-
+	private ServerCommandManager commandManager;
+	private static ServerRecordKeeper recordKeeper;
+	
 
 	public static void main(String[] args) {
+		
+		recordKeeper = new ServerRecordKeeper();
 		try{
 		new Server();		
 		}catch(Exception e){
@@ -36,6 +42,7 @@ public class Server {
 			
 		//new File(SharedData.PATH_TO_SERVER_JAR).mkdir();
 		
+		commandManager = new ServerCommandManager();
 		
 		//107.170.122.137
 		//put my external IP here, plus the external forwarded port
@@ -43,16 +50,24 @@ public class Server {
 			fileServer = new FileServer(SharedData.SERVERPORT);
 			new Thread(fileServer).start();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		
-		
-		
+		 Scanner sc = new Scanner(System.in);
+		 while(sc.hasNextLine())
+			 {
+			 commandManager.acceptCommand(sc.nextLine());
+			 }
 	  
 	}
 	
+
+
+	public static ServerRecordKeeper getRecordKeeper() {
+		return recordKeeper;
+	}
+
+
 	public static String getCheckSum() {
 		try{
 		File file = new File(  SharedData.getSelfJarPath() + "sandsofosiris.jar" );		
@@ -64,7 +79,11 @@ public class Server {
 		}
 	}
 
-
+	static void printOut(Object s) {
+		printTimeStamp();
+		System.out.println(s);
+		
+	}
 	public static void printTimeStamp() {
 		Date date = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd h:mm a");
