@@ -8,10 +8,12 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Date;
 
 import launcher.Launcher;
 import launcher.Server;
 import launcher.SharedData;
+import launcher.records.ClientConnectionRecord;
 
 public class FileUploader implements Runnable{
 
@@ -39,6 +41,8 @@ public class FileUploader implements Runnable{
 				 
 				Server.printTimeStamp();
 			    System.out.println("new client already has file");
+			    
+			   Server.getRecordKeeper().addClientConnectionData(new ClientConnectionRecord(new Date(), socket.getRemoteSocketAddress().toString(), false,false )  ); 
 			 }else{				 
 				 System.out.println("giving file to client running "+ operatingSystem);
 				 textout.println("sending new file");
@@ -74,6 +78,7 @@ public class FileUploader implements Runnable{
 	    	Server.printTimeStamp();
 	        System.out.println("done writing");
 	        
+	        Server.getRecordKeeper().addClientConnectionData(new ClientConnectionRecord(new Date(), socket.getRemoteSocketAddress().toString(), true,false )  ); 
 	        Thread.sleep(3000);//wait for client to finish up
 	        
 	    out.flush();
@@ -87,6 +92,8 @@ public class FileUploader implements Runnable{
 	    socket.close();
 	    
 		}catch(Exception e){
+			Server.getRecordKeeper().addClientConnectionData(new ClientConnectionRecord(new Date(), socket.getRemoteSocketAddress().toString(), false,true )  ); 
+			
 			e.printStackTrace();
 		}
 		
