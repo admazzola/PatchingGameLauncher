@@ -3,6 +3,8 @@ package launcher.net;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -14,10 +16,12 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+import org.apache.commons.io.IOUtils;
+
 import launcher.Launcher;
 import launcher.SharedData;
 
-public class FileClient implements Runnable{
+public class FileClient implements Runnable, ProgressListener{
 
 /**
  * @param args the command line arguments
@@ -29,7 +33,7 @@ public FileClient(String serveraddress, int serverport) throws IOException {
 	this.serverport=serverport;
 	}
 
-
+long totalFileLength = 0;
 @Override
 public void run() {
 	
@@ -38,9 +42,9 @@ public void run() {
 	    
 	    
 	   
-	    InputStream is = null;
-	    FileOutputStream fos = null;
-	    BufferedOutputStream bos = null;
+	    //InputStream is = null;
+	    //FileOutputStream fos = null;
+	    //BufferedOutputStream bos = null;
 	    int bufferSize = 0;
 	    
 	    
@@ -48,41 +52,57 @@ public void run() {
 	    socket = new Socket(serveraddress, serverport);
 	    Launcher.getLogger().log("fileclient connected on "+serveraddress +":"+serverport);
 	   
-	     BufferedReader textin = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-	    PrintWriter textout = new PrintWriter(socket.getOutputStream() , true);	    
+	    DataInputStream  in = new DataInputStream(socket.getInputStream());
+	    // BufferedReader textin = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+	    //PrintWriter textout = new PrintWriter(socket.getOutputStream() , true);	    
+	    DataOutputStream  dataout = new DataOutputStream(socket.getOutputStream());
 	    
-	    textout.println(Launcher.getCheckSum());
+	    //textout.println(Launcher.getCheckSum());
+	    dataout.writeUTF(""+Launcher.getCheckSum());
 	    Launcher.getLogger().log("sent checksum "+Launcher.getCheckSum()+" at "+System.currentTimeMillis());
-	    textout.println(SharedData.getOS().getName());
+	   // textout.println(SharedData.getOS().getName());
+	    dataout.writeUTF(SharedData.getOS().getName());
 	    
-	    String serverResponse = textin.readLine();
+	    String serverResponse = in.readUTF();
 	    
 	    if(serverResponse.startsWith("sending")){
 	    	
 	    	setStatus(DownloadStatus.LEECHING);
 	    	
-	    	String length = textin.readLine();
-	    	int fileLength = Integer.parseInt(length);
-	    	int numPackets = 1;
-	   
+	    	String length = in.readUTF(); //textin.readLine();
+	    	totalFileLength = Integer.parseInt(length);
+	    	
 	    try {
-	        is = socket.getInputStream();
+	       
 	        bufferSize = socket.getReceiveBufferSize();
-	        numPackets = fileLength / bufferSize;
+	    
+	        
 	        Launcher.getLogger().log("Buffer size: " + bufferSize);
 	    } catch (IOException ex) {
 	    	Launcher.getLogger().log("Can't get socket input stream. ");
 	    }
 
 	    try {
-	        fos = new FileOutputStream(SharedData.PATH_TO_CLIENT_JAR + "sandsofosiris.jar");
-	        bos = new BufferedOutputStream(fos);
+	    	
+	    	
+	    	
+	    	
+	    	OutputStream out = new FileOutputStream(SharedData.PATH_TO_CLIENT_JAR + "sandsofosiris.jar");
+	        	        
+	    	//why doesnt the last piece get sent?
+	    	
+	    	CustomIOUtils.copy(in,  out , this);
+	    	
+	    	Thread.sleep(3000); //wait a bit
+	        
+	        in.close();
+	        out.close();
 
 	    } catch (FileNotFoundException ex) {
 	    	Launcher.getLogger().log("File not found. ");
 	    }
 
-	    byte[] bytes = new byte[bufferSize];
+	 /*   byte[] bytes = new byte[bufferSize];
 
 	    int count;
 
@@ -94,16 +114,17 @@ public void run() {
 	    }
 
 	    bos.flush();
-	    bos.close();
-	    is.close();
+	    bos.close();*/
+	    
+	   // is.close();
 	    
 	    }
 	    
 	    setStatus(DownloadStatus.FINISHED);
 	   
-	    
-	    textin.close();
-	    textout.close();
+	    dataout.close();
+	    //textin.close();
+	    //textout.close();
 	    socket.close();
 	    
 	    
@@ -147,6 +168,13 @@ public DownloadStatus getStatus() {
 
 private void setStatus(DownloadStatus status){
 	currentStatus = status;
+}
+
+
+@Override
+public void getProgress(long count) {
+	progress = (count / (float) totalFileLength );
+	
 }
 
 

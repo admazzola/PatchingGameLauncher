@@ -22,7 +22,7 @@ public class FileServer implements Runnable{
 	int serverport;
 	File file;
 	long length;
-	byte[] bytes;
+	//byte[] bytes;
 	
 	
 public FileServer( int serverport)  throws IOException {
@@ -31,7 +31,7 @@ public FileServer( int serverport)  throws IOException {
 	file = new File(SharedData.getSelfJarPath() + "sandsofosiris.jar");
 	length = file.length();
 	
-	bytes = new byte[(int) length];
+	//bytes = new byte[(int) length];
 	
 	System.out.println("File at " +SharedData.getSelfJarPath() + "sandsofosiris.jar"+ " length: "+length);
     
@@ -52,7 +52,7 @@ public void run() {
     System.out.println("fileserver listening on "+serverport);
   
  
-    while(true){
+    while(true){ //keep accepting connections from tons of launchers
     try {
     	Socket socket = null;
         socket = serverSocket.accept();
@@ -67,15 +67,16 @@ public void run() {
         System.out.println("Can't accept client connection. ");
     }
     
-    }
     
+    }
 	
   
     
 	
 }
 
-//send separate files for each OS later on :)
+
+//send separate files for each OS later on ?
 public long getFileLength(String operatingSystem) {
 	
 	return length;
@@ -88,9 +89,7 @@ public File getFile(String operatingSystem) {
 }
 
 
-public byte[] getBytes(String operatingSystem) {
-	return bytes;
-}
+
 
 boolean busy = false;
 public boolean isBusy() {	

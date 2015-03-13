@@ -6,8 +6,10 @@ import java.net.URI;
 public class SharedData {
 	
 	public static final int SERVERPORT = 2232;
-	//public static final String SERVERIP = "107.170.122.137";
-	public static final String SERVERIP = "localhost";
+
+	public static final String SERVERIP = "107.170.122.137";
+	//public static final String SERVERIP = "localhost";  //FORTESTING
+
 	
 	public static final String URL_BLOG = "http://www.starflask.com/launcher/updates";
 	public static final String PATH_TO_CLIENT_JAR = getDefaultDirectory() +"\\" +"Sands of Osiris" +"\\";
@@ -21,7 +23,7 @@ public class SharedData {
 								 + " 'log' - Displays a list of recent client connections ";
 	public static final String UNKNOWNCOMMANDSTRING = "Invalid command. Type 'help' for assistance.";
 
-	public static String VERSION = "0.15";
+	public static String VERSION = "0.17";
 	
 	public static String getSelfJarPath(){
 		String fullpath = Server.class.getProtectionDomain().getCodeSource().getLocation().getPath();
