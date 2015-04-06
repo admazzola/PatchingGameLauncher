@@ -72,6 +72,8 @@ public void run() {
 	    	String length = in.readUTF(); //textin.readLine();
 	    	totalFileLength = Integer.parseInt(length);
 	    	
+	    	
+	    	
 	    try {
 	       
 	        bufferSize = socket.getReceiveBufferSize();
@@ -171,8 +173,22 @@ private void setStatus(DownloadStatus status){
 }
 
 
+public long getCurrentByteCount()
+{
+	return currentByteCount;
+}
+
+public long getTotalByteCount()
+{
+	return totalFileLength;
+}
+
+
+long currentByteCount = 0;
+
 @Override
-public void getProgress(long count) {
+public void setProgress(long count) {
+	currentByteCount = count;
 	progress = (count / (float) totalFileLength );
 	
 }

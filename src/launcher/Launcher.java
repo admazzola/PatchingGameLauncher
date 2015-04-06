@@ -162,6 +162,10 @@ public class Launcher {
 					
 					getPanel().getSidebar().getProgressBar().setVisible(true);
 					getPanel().getSidebar().getProgressBar().setValue((int) (fileClient.getProgress() * 100));
+					getPanel().getSidebar().getProgressBar().setStringPainted(true);
+					getPanel().getSidebar().getProgressBar().setString((fileClient.getCurrentByteCount()/1024) + "k / " + (fileClient.getTotalByteCount()/1024)+"k"  );
+					
+					
 					System.out.println("setting progress to "
 							+ fileClient.getProgress() * 100);
 						}

@@ -7,11 +7,11 @@ public class SharedData {
 	
 	public static final int SERVERPORT = 2232;
 
-	public static final String SERVERIP = "107.170.122.137";
-	//public static final String SERVERIP = "localhost";  //FORTESTING
+	//public static final String SERVERIP = "107.170.122.137";
+	public static final String SERVERIP = "localhost";  //FORTESTING
 
-	
-	public static final String URL_BLOG = "http://www.starflask.com/launcher/updates";
+	public static final String URL_BLOG = "localhost";
+	//public static final String URL_BLOG = "http://www.starflask.com/launcher/updates";
 	public static final String PATH_TO_CLIENT_JAR = getDefaultDirectory() +"\\" +"Sands of Osiris" +"\\";
 	//public static final String PATH_TO_SERVER_JAR = getDefaultDirectory() +"\\" +"SandsLauncher" +"\\" ;
 	

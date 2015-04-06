@@ -113,7 +113,7 @@ public class FileUploader implements Runnable, ProgressListener{
 	}
 
 	@Override
-	public void getProgress(long count) {
+	public void setProgress(long count) {
 		//System.out.println("Sent " + count);
 		
 	}

@@ -1795,7 +1795,7 @@ public class CustomIOUtils {
         int n = 0;
         while (EOF != (n = input.read(buffer))) {
             output.write(buffer, 0, n);
-            listener.getProgress(count);
+            listener.setProgress(count);
             count += n;            
         }
         return count;
